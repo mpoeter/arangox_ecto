@@ -172,19 +172,44 @@ defmodule ArangoXEcto.Adapter do
   def dumpers({:in, sub}, {:in, sub}), do: [{:array, sub}]
 
   def dumpers(:date, type) when type in [:date, Date],
-    do: [fn %Date{} = d -> {:ok, Date.to_iso8601(d)} end]
+    do: [
+      fn
+        nil -> {:ok, nil}
+        %Date{} = d -> {:ok, Date.to_iso8601(d)}
+      end
+    ]
 
   def dumpers(:time, type) when type in [:time, Time],
-    do: [fn %Time{} = t -> {:ok, Time.to_iso8601(t)} end]
+    do: [
+      fn
+        nil -> {:ok, nil}
+        %Time{} = t -> {:ok, Time.to_iso8601(t)}
+      end
+    ]
 
   def dumpers(:utc_datetime, type) when type in [:utc_datetime, DateTime],
-    do: [fn %DateTime{} = dt -> {:ok, DateTime.to_iso8601(dt)} end]
+    do: [
+      fn
+        nil -> {:ok, nil}
+        %DateTime{} = dt -> {:ok, DateTime.to_iso8601(dt)}
+      end
+    ]
 
   def dumpers(:naive_datetime, type) when type in [:naive_datetime, NaiveDateTime],
-    do: [fn %NaiveDateTime{} = dt -> {:ok, NaiveDateTime.to_iso8601(dt)} end]
+    do: [
+      fn
+        nil -> {:ok, nil}
+        %NaiveDateTime{} = dt -> {:ok, NaiveDateTime.to_iso8601(dt)}
+      end
+    ]
 
   def dumpers(:decimal, type) when type in [:decimal, Decimal],
-    do: [fn %Decimal{} = d -> {:ok, Decimal.to_string(d)} end]
+    do: [
+      fn
+        nil -> {:ok, nil}
+        %Decimal{} = d -> {:ok, Decimal.to_string(d)}
+      end
+    ]
 
   def dumpers(_primitive, type), do: [type]
 
